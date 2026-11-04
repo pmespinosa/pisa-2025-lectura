@@ -100,6 +100,8 @@ function setupChapterTracker() {
 /* --------------------------------------------------------------------------
    Paleta Institucional Oficial de los Gráficos del Policy Brief de Mistrall
    -------------------------------------------------------------------------- */
+const isMobileDevice = () => window.innerWidth < 768;
+
 const POLICY_PALETTE = {
   // Niveles de desempeño y cobertura (especificados explícitamente)
   mn2: '#BA9CA1',          // Menor a Nivel 2 (Rezago)
@@ -488,7 +490,7 @@ function renderEvolucionLatAm(data) {
           fontFamily: POLICY_PALETTE.fontFamily
         },
         endLabel: {
-          show: true,
+          show: !isMobileDevice(),
           formatter: (p) => `${p.seriesName} (${p.value[1]})`,
           fontFamily: POLICY_PALETTE.fontFamily,
           fontSize: 11.5,
@@ -556,7 +558,13 @@ function renderEvolucionLatAm(data) {
         textStyle: { fontFamily: POLICY_PALETTE.fontFamily, fontSize: 12, fontWeight: 600, color: '#252423' },
         pageTextStyle: { fontFamily: POLICY_PALETTE.fontFamily, color: '#252423' }
       },
-      grid: { left: '3%', right: 195, bottom: '6%', top: '8%', containLabel: true },
+      grid: {
+        left: isMobileDevice() ? '5%' : '3%',
+        right: isMobileDevice() ? '6%' : 195,
+        bottom: isMobileDevice() ? '8%' : '6%',
+        top: isMobileDevice() ? '14%' : '8%',
+        containLabel: true
+      },
       xAxis: {
         type: 'value',
         min: 2000,
@@ -640,7 +648,10 @@ function renderEvolucionLatAm(data) {
     if (btnClear) btnClear.classList.toggle('active', allOff);
   });
 
-  window.addEventListener('resize', () => chart.resize());
+  window.addEventListener('resize', () => {
+    chart.setOption(getOption(btnSelectAll ? btnSelectAll.classList.contains('active') : true));
+    chart.resize();
+  });
 }
 
 /* --------------------------------------------------------------------------
@@ -788,7 +799,7 @@ function renderFigura7ScatterCobertura(data) {
   };
   const leftSideLabels = new Set(['Colombia', 'Ecuador', 'El Salvador', 'Perú']);
 
-  chart.setOption({
+  const getOption = () => ({
     textStyle: { fontFamily: POLICY_PALETTE.fontFamily },
     tooltip: {
       trigger: 'item',
@@ -822,7 +833,7 @@ function renderFigura7ScatterCobertura(data) {
         trendName
       ]
     },
-    grid: { left: '6%', right: '5%', bottom: '11%', top: '13%', containLabel: true },
+    grid: { left: isMobileDevice() ? '3%' : '6%', right: isMobileDevice() ? '4%' : '5%', bottom: isMobileDevice() ? '14%' : '11%', top: isMobileDevice() ? '24%' : '13%', containLabel: true },
     xAxis: {
       type: 'value',
       name: 'Tasa de cobertura de la población de 15 años - Coverage Index 3 (%)',
@@ -999,7 +1010,12 @@ function renderFigura7ScatterCobertura(data) {
     ]
   });
 
-  window.addEventListener('resize', () => chart.resize());
+  chart.setOption(getOption(), true);
+
+  window.addEventListener('resize', () => {
+    chart.setOption(getOption(), true);
+    chart.resize();
+  });
 }
 
 /* --------------------------------------------------------------------------
@@ -2299,7 +2315,7 @@ function renderFigura15Genero(data) {
       type: 'value',
       name: 'Puntaje promedio en lectura',
       nameLocation: 'middle',
-      nameGap: 64,
+      nameGap: isMobileDevice() ? 40 : 64,
       nameTextStyle: { fontFamily: POLICY_PALETTE.fontFamily, fontWeight: 700, fontSize: 12, color: '#252423' },
       min: 420,
       max: 520,
@@ -4109,11 +4125,21 @@ function renderActitudesTimelineSection(config) {
   }
 
   function renderView(activeItemKey) {
+    const mobile = isMobileDevice();
     const isSingle = activeItemKey !== 'todos';
     const activeItems = isSingle
       ? config.items.filter((it) => it.key === activeItemKey)
       : config.items;
     const count = activeItems.length;
+
+    // En pantallas móviles con múltiples items, organizar en vertical (filas) y expandir altura del contenedor
+    if (mobile && !isSingle) {
+      dom.style.height = `${count * 220 + 70}px`;
+      chart.resize();
+    } else if (!isSingle) {
+      dom.style.height = `${config.defaultHeight || 430}px`;
+      chart.resize();
+    }
 
     const grids = [];
     const xAxes = [];
@@ -4121,118 +4147,218 @@ function renderActitudesTimelineSection(config) {
     const titles = [];
     const series = [];
 
-    const leftStart = isSingle ? 10 : (count >= 5 ? 6.5 : 7.5);
-    const rightEnd = isSingle ? 92 : 97.5;
-    const gap = isSingle ? 0 : (count >= 5 ? 2.2 : 3.8);
-    const totalAvail = rightEnd - leftStart - gap * (count - 1);
-    const panelWidth = totalAvail / count;
+    if (mobile && !isSingle) {
+      // Disposición vertical para celulares
+      activeItems.forEach((item, idx) => {
+        const topPct = (idx * (100 / count)) + 6;
+        const hPct = (100 / count) - 10;
 
-    activeItems.forEach((item, idx) => {
-      const leftPct = leftStart + idx * (panelWidth + gap);
-      const centerPct = leftPct + panelWidth / 2;
-
-      grids.push({
-        left: `${leftPct.toFixed(2)}%`,
-        width: `${panelWidth.toFixed(2)}%`,
-        top: isSingle ? '22%' : '25%',
-        bottom: '12%',
-        show: true,
-        borderColor: '#E2DDD2',
-        borderWidth: 1,
-        backgroundColor: 'rgba(255, 255, 255, 0.45)'
-      });
-
-      titles.push({
-        text: isSingle ? item.fullTitle : item.shortTitle,
-        subtext: item.subtitle,
-        left: `${centerPct.toFixed(2)}%`,
-        top: isSingle ? '9%' : '9.5%',
-        textAlign: 'center',
-        itemGap: 3,
-        textStyle: {
-          fontFamily: POLICY_PALETTE.fontFamily,
-          fontSize: isSingle ? 13.5 : (count >= 5 ? 10.5 : 11.5),
-          fontWeight: 800,
-          lineHeight: isSingle ? 17 : 13.5,
-          color: '#252423'
-        },
-        subtextStyle: {
-          fontFamily: POLICY_PALETTE.fontFamily,
-          fontSize: isSingle ? 11.5 : 10,
-          fontStyle: 'italic',
-          color: '#666666'
-        }
-      });
-
-      xAxes.push({
-        gridIndex: idx,
-        type: 'category',
-        data: ['2022', '2025'],
-        boundaryGap: isSingle ? ['28%', '28%'] : (count >= 5 ? ['31%', '31%'] : ['28%', '28%']),
-        axisTick: { show: true, alignWithLabel: true },
-        axisLine: { lineStyle: { color: '#C8C4B8' } },
-        axisLabel: {
-          fontFamily: POLICY_PALETTE.fontFamily,
-          fontSize: isSingle ? 12 : 11,
-          fontWeight: 700,
-          color: '#252423',
-          margin: 10
-        }
-      });
-
-      yAxes.push({
-        gridIndex: idx,
-        type: 'value',
-        min: config.yMin,
-        max: config.yMax,
-        interval: 10,
-        name: idx === 0 ? 'Porcentaje de estudiantes (%)' : '',
-        nameLocation: 'middle',
-        nameGap: 44,
-        nameTextStyle: {
-          fontFamily: POLICY_PALETTE.fontFamily,
-          fontWeight: 700,
-          fontSize: 11.5,
-          color: '#555555'
-        },
-        axisLabel: {
-          show: idx === 0,
-          formatter: '{value}%',
-          fontFamily: POLICY_PALETTE.fontFamily,
-          fontSize: 10.5,
-          color: '#555555'
-        },
-        splitLine: {
+        grids.push({
+          left: '14%',
+          right: '7%',
+          top: `${topPct.toFixed(1)}%`,
+          height: `${hPct.toFixed(1)}%`,
           show: true,
-          lineStyle: { color: '#ECE8DD', type: 'dashed' }
-        }
-      });
+          borderColor: '#E2DDD2',
+          borderWidth: 1,
+          backgroundColor: 'rgba(255, 255, 255, 0.45)'
+        });
 
-      const { formatted } = buildNonOverlappingPoints(item.key, isSingle);
+        titles.push({
+          text: item.fullTitle,
+          subtext: item.subtitle,
+          left: 'center',
+          top: `${(topPct - 4.5).toFixed(1)}%`,
+          textAlign: 'center',
+          itemGap: 2,
+          textStyle: {
+            fontFamily: POLICY_PALETTE.fontFamily,
+            fontSize: 11.5,
+            fontWeight: 800,
+            color: '#252423'
+          },
+          subtextStyle: {
+            fontFamily: POLICY_PALETTE.fontFamily,
+            fontSize: 10,
+            fontStyle: 'italic',
+            color: '#666666'
+          }
+        });
 
-      entities.forEach((ent) => {
-        series.push({
-          name: ent.name,
-          type: 'line',
-          xAxisIndex: idx,
-          yAxisIndex: idx,
-          data: formatted[ent.key],
-          symbol: 'circle',
-          symbolSize: isSingle ? ent.symbolSize + 2 : ent.symbolSize,
-          lineStyle: {
-            color: ent.color,
-            width: isSingle ? ent.lineWidth + 0.5 : ent.lineWidth,
-            type: 'solid'
+        xAxes.push({
+          gridIndex: idx,
+          type: 'category',
+          data: ['2022', '2025'],
+          boundaryGap: ['25%', '25%'],
+          axisTick: { show: true, alignWithLabel: true },
+          axisLine: { lineStyle: { color: '#C8C4B8' } },
+          axisLabel: {
+            fontFamily: POLICY_PALETTE.fontFamily,
+            fontSize: 11,
+            fontWeight: 700,
+            color: '#252423',
+            margin: 6
+          }
+        });
+
+        yAxes.push({
+          gridIndex: idx,
+          type: 'value',
+          min: config.yMin,
+          max: config.yMax,
+          interval: 20,
+          axisLabel: {
+            formatter: '{value}%',
+            fontFamily: POLICY_PALETTE.fontFamily,
+            fontSize: 9.5,
+            color: '#555555'
           },
-          itemStyle: {
-            color: ent.color,
-            borderColor: '#FFFFFF',
-            borderWidth: 1.5
-          },
-          z: ent.z
+          splitLine: {
+            show: true,
+            lineStyle: { color: '#ECE8DD', type: 'dashed' }
+          }
+        });
+
+        const { formatted } = buildNonOverlappingPoints(item.key, isSingle);
+
+        entities.forEach((ent) => {
+          series.push({
+            name: ent.name,
+            type: 'line',
+            xAxisIndex: idx,
+            yAxisIndex: idx,
+            data: formatted[ent.key],
+            symbol: 'circle',
+            symbolSize: ent.symbolSize,
+            lineStyle: {
+              color: ent.color,
+              width: ent.lineWidth,
+              type: 'solid'
+            },
+            itemStyle: {
+              color: ent.color,
+              borderColor: '#FFFFFF',
+              borderWidth: 1.5
+            },
+            z: ent.z
+          });
         });
       });
-    });
+    } else {
+      // Disposición horizontal de escritorio
+      const leftStart = isSingle ? 10 : (count >= 5 ? 6.5 : 7.5);
+      const rightEnd = isSingle ? 92 : 97.5;
+      const gap = isSingle ? 0 : (count >= 5 ? 2.2 : 3.8);
+      const totalAvail = rightEnd - leftStart - gap * (count - 1);
+      const panelWidth = totalAvail / count;
+
+      activeItems.forEach((item, idx) => {
+        const leftPct = leftStart + idx * (panelWidth + gap);
+        const centerPct = leftPct + panelWidth / 2;
+
+        grids.push({
+          left: `${leftPct.toFixed(2)}%`,
+          width: `${panelWidth.toFixed(2)}%`,
+          top: isSingle ? '22%' : '25%',
+          bottom: '12%',
+          show: true,
+          borderColor: '#E2DDD2',
+          borderWidth: 1,
+          backgroundColor: 'rgba(255, 255, 255, 0.45)'
+        });
+
+        titles.push({
+          text: isSingle ? item.fullTitle : item.shortTitle,
+          subtext: item.subtitle,
+          left: `${centerPct.toFixed(2)}%`,
+          top: isSingle ? '9%' : '9.5%',
+          textAlign: 'center',
+          itemGap: 3,
+          textStyle: {
+            fontFamily: POLICY_PALETTE.fontFamily,
+            fontSize: isSingle ? 13.5 : (count >= 5 ? 10.5 : 11.5),
+            fontWeight: 800,
+            lineHeight: isSingle ? 17 : 13.5,
+            color: '#252423'
+          },
+          subtextStyle: {
+            fontFamily: POLICY_PALETTE.fontFamily,
+            fontSize: isSingle ? 11.5 : 10,
+            fontStyle: 'italic',
+            color: '#666666'
+          }
+        });
+
+        xAxes.push({
+          gridIndex: idx,
+          type: 'category',
+          data: ['2022', '2025'],
+          boundaryGap: isSingle ? ['28%', '28%'] : (count >= 5 ? ['31%', '31%'] : ['28%', '28%']),
+          axisTick: { show: true, alignWithLabel: true },
+          axisLine: { lineStyle: { color: '#C8C4B8' } },
+          axisLabel: {
+            fontFamily: POLICY_PALETTE.fontFamily,
+            fontSize: isSingle ? 12 : 11,
+            fontWeight: 700,
+            color: '#252423',
+            margin: 10
+          }
+        });
+
+        yAxes.push({
+          gridIndex: idx,
+          type: 'value',
+          min: config.yMin,
+          max: config.yMax,
+          interval: 10,
+          name: idx === 0 ? 'Porcentaje de estudiantes (%)' : '',
+          nameLocation: 'middle',
+          nameGap: 44,
+          nameTextStyle: {
+            fontFamily: POLICY_PALETTE.fontFamily,
+            fontWeight: 700,
+            fontSize: 11.5,
+            color: '#555555'
+          },
+          axisLabel: {
+            show: idx === 0,
+            formatter: '{value}%',
+            fontFamily: POLICY_PALETTE.fontFamily,
+            fontSize: 10.5,
+            color: '#555555'
+          },
+          splitLine: {
+            show: true,
+            lineStyle: { color: '#ECE8DD', type: 'dashed' }
+          }
+        });
+
+        const { formatted } = buildNonOverlappingPoints(item.key, isSingle);
+
+        entities.forEach((ent) => {
+          series.push({
+            name: ent.name,
+            type: 'line',
+            xAxisIndex: idx,
+            yAxisIndex: idx,
+            data: formatted[ent.key],
+            symbol: 'circle',
+            symbolSize: isSingle ? ent.symbolSize + 2 : ent.symbolSize,
+            lineStyle: {
+              color: ent.color,
+              width: isSingle ? ent.lineWidth + 0.5 : ent.lineWidth,
+              type: 'solid'
+            },
+            itemStyle: {
+              color: ent.color,
+              borderColor: '#FFFFFF',
+              borderWidth: 1.5
+            },
+            z: ent.z
+          });
+        });
+      });
+    }
 
     chart.setOption({
       textStyle: { fontFamily: POLICY_PALETTE.fontFamily },
@@ -4261,10 +4387,10 @@ function renderActitudesTimelineSection(config) {
       legend: {
         data: entities.map((e) => e.name),
         top: 0,
-        itemGap: 24,
+        itemGap: mobile ? 12 : 24,
         textStyle: {
           fontFamily: POLICY_PALETTE.fontFamily,
-          fontSize: 11.5,
+          fontSize: mobile ? 10 : 11.5,
           fontWeight: 700,
           color: '#252423'
         }
@@ -4290,7 +4416,10 @@ function renderActitudesTimelineSection(config) {
     });
   }
 
-  window.addEventListener('resize', () => chart.resize());
+  window.addEventListener('resize', () => {
+    renderView('todos');
+    chart.resize();
+  });
 }
 
 function renderFigura24Perseverancia(data) {
