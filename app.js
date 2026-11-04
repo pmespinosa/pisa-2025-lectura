@@ -856,8 +856,8 @@ function renderFigura7ScatterCobertura(data) {
         symbolSize: 8,
         z: 2,
         itemStyle: {
-          color: 'rgba(148, 163, 184, 0.5)',
-          borderColor: '#64748B',
+          color: 'rgba(148, 163, 184, 0.28)',
+          borderColor: 'rgba(100, 116, 139, 0.45)',
           borderWidth: 0.8
         },
         data: otherRows.map(r => ({
@@ -871,9 +871,9 @@ function renderFigura7ScatterCobertura(data) {
         symbolSize: 9.2,
         z: 4,
         itemStyle: {
-          color: 'rgba(185, 122, 132, 0.82)',
-          borderColor: '#8C5A63',
-          borderWidth: 1.1
+          color: 'rgba(185, 122, 132, 0.42)',
+          borderColor: 'rgba(140, 90, 99, 0.55)',
+          borderWidth: 1
         },
         data: oecdMemberRows.map(r => ({
           name: r.Pais,
@@ -899,9 +899,9 @@ function renderFigura7ScatterCobertura(data) {
         symbolSize: 10.5,
         z: 5,
         itemStyle: {
-          color: '#4DB6B5',
-          borderColor: '#2B5B64',
-          borderWidth: 1.2
+          color: 'rgba(77, 182, 181, 0.5)',
+          borderColor: 'rgba(43, 91, 100, 0.6)',
+          borderWidth: 1.1
         },
         labelLayout: {
           moveOverlap: 'shiftY'
