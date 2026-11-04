@@ -1,0 +1,951 @@
+/* ==========================================================================
+   ESTILOS EDITORIALES - INSTITUTO MILENIO MISTRALL
+   Inspirado en https://mistrall.cl/ y la navegación de https://sae.educacion2020.cl/
+   ========================================================================== */
+
+:root {
+  --mistrall-dark: #252423;
+  --mistrall-slate: #3C4D5D;
+  --mistrall-cream: #F9F7F2;
+  --mistrall-canvas: #F9F7F2;
+  --mistrall-white: #FFFFFF;
+  --mistrall-yellow: #FFF265;
+  --mistrall-yellow-hover: #faea38;
+  --mistrall-teal: #4DB6B5;
+  --mistrall-teal-dark: #426871;
+  --mistrall-coral: #C25A3D;
+  --mistrall-blue: #3C4D5D;
+  --mistrall-sand: #EAE5C8;
+  --mistrall-border: #E8E4D9;
+  --mistrall-border-light: #F2EFE7;
+  --mistrall-text-muted: #5E6268;
+
+  --font-sans: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-serif: 'Newsreader', Georgia, serif;
+  
+  --shadow-subtle: 0 2px 12px rgba(34, 34, 33, 0.04);
+  --shadow-hover: 0 6px 20px rgba(34, 34, 33, 0.08);
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-full: 9999px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--mistrall-canvas);
+  color: var(--mistrall-dark);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --------------------------------------------------------------------------
+   Header Oficial de Mistrall: Solo Logo + Botón de Retorno
+   -------------------------------------------------------------------------- */
+.site-header {
+  background-color: var(--mistrall-white);
+  border-bottom: 1px solid var(--mistrall-border);
+  position: relative;
+  z-index: 1000;
+}
+
+.header-inner {
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 1.15rem 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+}
+
+.logo-container {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.mistrall-logo-svg {
+  height: 42px;
+  width: auto;
+  display: block;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.btn-download-policy {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background-color: var(--mistrall-slate);
+  color: var(--mistrall-white);
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 700;
+  padding: 0.55rem 1.15rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--mistrall-slate);
+  transition: all 0.2s ease;
+}
+
+.btn-download-policy span {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.btn-download-policy:hover {
+  background-color: var(--mistrall-yellow);
+  color: var(--mistrall-dark);
+  border-color: var(--mistrall-yellow-hover);
+  transform: translateY(-1px);
+}
+
+.btn-return-mistrall {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: var(--mistrall-cream);
+  color: var(--mistrall-dark);
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 700;
+  padding: 0.55rem 1.15rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--mistrall-border);
+  transition: all 0.2s ease;
+}
+
+.btn-return-mistrall span {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.btn-return-mistrall:hover {
+  background-color: var(--mistrall-yellow);
+  border-color: var(--mistrall-yellow-hover);
+  transform: translateY(-1px);
+}
+
+/* --------------------------------------------------------------------------
+   Barra de Progreso y Navegación Fluida por Capítulos
+   -------------------------------------------------------------------------- */
+.chapter-nav-tracker {
+  background-color: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--mistrall-border);
+  position: sticky;
+  top: 0;
+  z-index: 990;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
+}
+
+.chapter-nav-container {
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.chapter-label-current {
+  display: none;
+}
+
+.chapter-indicator-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--mistrall-teal);
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.chapter-pills-list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  width: 100%;
+}
+
+.chapter-pill {
+  text-decoration: none;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--mistrall-text-muted);
+  padding: 0.32rem 0.62rem;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  background-color: transparent;
+}
+
+.chapter-pill:hover {
+  color: var(--mistrall-dark);
+  background-color: var(--mistrall-cream);
+}
+
+.chapter-pill.active {
+  color: var(--mistrall-dark);
+  background-color: var(--mistrall-yellow);
+  font-weight: 700;
+}
+
+.reading-progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background-color: var(--mistrall-slate);
+  width: 0%;
+  transition: width 0.1s ease-out;
+}
+
+/* --------------------------------------------------------------------------
+   Portada Editorial (Hero / Lead Story)
+   -------------------------------------------------------------------------- */
+.editorial-hero {
+  background: linear-gradient(180deg, var(--mistrall-cream) 0%, var(--mistrall-canvas) 100%);
+  padding: 4.5rem 1.75rem 3.5rem;
+  border-bottom: 1px solid var(--mistrall-border);
+}
+
+.editorial-hero-container {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.editorial-headline {
+  font-size: 3.25rem;
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--mistrall-dark);
+  letter-spacing: -0.025em;
+  margin-bottom: 1rem;
+}
+
+.editorial-dek {
+  font-family: var(--font-serif);
+  font-size: 1.45rem;
+  line-height: 1.45;
+  color: #383B3F;
+  margin-bottom: 1rem;
+}
+
+.editorial-reference-note {
+  font-size: 0.92rem;
+  color: var(--mistrall-text-muted);
+  line-height: 1.5;
+  margin-bottom: 2.5rem;
+}
+
+.editorial-reference-note em {
+  color: var(--mistrall-dark);
+  font-weight: 600;
+}
+
+/* Síntesis Editorial Asimétrica (Sin cuadrículas genéricas de tarjetas) */
+.editorial-synthesis-flow {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 2.5rem;
+  background-color: var(--mistrall-white);
+  border: 1px solid var(--mistrall-border);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  box-shadow: var(--shadow-subtle);
+  align-items: center;
+}
+
+.synthesis-main-column {
+  border-right: 1px solid var(--mistrall-border-light);
+  padding-right: 2.5rem;
+}
+
+.synthesis-lead-paragraph {
+  font-size: 1.18rem;
+  line-height: 1.65;
+  color: var(--mistrall-dark);
+  margin-bottom: 1.25rem;
+}
+
+.synthesis-secondary-paragraph {
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--mistrall-text-muted);
+}
+
+.synthesis-focal-points {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.focal-point-entry {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.15rem;
+}
+
+.focal-stat-badge {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--mistrall-slate);
+  background-color: var(--mistrall-cream);
+  border: 1px solid var(--mistrall-border);
+  padding: 0.5rem 0.85rem;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  line-height: 1.15;
+  min-width: 108px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.focal-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.focal-text h4 {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--mistrall-dark);
+  margin-bottom: 0.25rem;
+}
+
+.focal-text p {
+  font-size: 0.84rem;
+  color: var(--mistrall-text-muted);
+  line-height: 1.45;
+}
+
+/* --------------------------------------------------------------------------
+   Cuerpo del Artículo y Capítulos
+   -------------------------------------------------------------------------- */
+.article-body {
+  max-width: 1120px;
+  margin: 3.5rem auto;
+  padding: 0 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4.5rem;
+}
+
+.chapter-block {
+  scroll-margin-top: 90px;
+}
+
+.chapter-header {
+  margin-bottom: 1.5rem;
+}
+
+.chapter-pretitle {
+  display: inline-block;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--mistrall-teal-dark);
+  background-color: rgba(84, 166, 173, 0.12);
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.5rem;
+}
+
+.chapter-title {
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: var(--mistrall-dark);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.chapter-text-lead {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #2D3035;
+  margin-bottom: 2rem;
+}
+
+.chapter-text-lead p {
+  margin-bottom: 1rem;
+}
+
+/* --------------------------------------------------------------------------
+   Figuras Interactivas (Visualizaciones Limpias)
+   -------------------------------------------------------------------------- */
+.interactive-figure {
+  background-color: var(--mistrall-white);
+  border: 1px solid var(--mistrall-border);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem 2rem;
+  box-shadow: var(--shadow-subtle);
+  transition: box-shadow 0.2s ease;
+}
+
+.interactive-figure:hover {
+  box-shadow: var(--shadow-hover);
+}
+
+.figure-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--mistrall-border-light);
+}
+
+.figure-title-area {
+  flex: 1;
+  min-width: 280px;
+  max-width: 100%;
+}
+
+.figure-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--mistrall-dark);
+  line-height: 1.35;
+  margin-bottom: 0.35rem;
+}
+
+.figure-description {
+  font-size: 0.88rem;
+  color: var(--mistrall-text-muted);
+  line-height: 1.45;
+}
+
+.figure-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.chart-inline-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 0.35rem;
+}
+
+/* Controles segmentados */
+.segmented-control {
+  display: inline-flex;
+  background-color: var(--mistrall-cream);
+  padding: 3px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--mistrall-border);
+}
+
+.seg-btn {
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--mistrall-text-muted);
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.seg-btn:hover {
+  color: var(--mistrall-dark);
+}
+
+.seg-btn.active {
+  background-color: var(--mistrall-white);
+  color: var(--mistrall-dark);
+  font-weight: 700;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* Panel diferenciador de controles (Selección de países vs Forma de cálculo) */
+.figure-controls-panel {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-top: 0.35rem;
+  padding-top: 0.85rem;
+  border-top: 1px dashed var(--mistrall-border);
+}
+
+.control-group-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.control-group-label {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--mistrall-slate);
+  min-width: 145px;
+}
+
+/* Variante 1: Selección de países (botones tipo píldora oscuros al activarse) */
+.segmented-control--countries {
+  background: transparent;
+  border: none;
+  padding: 0;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.segmented-control--countries .seg-btn {
+  background-color: var(--mistrall-white);
+  border: 1px solid #CFCBC0;
+  border-radius: var(--radius-full);
+  padding: 0.38rem 0.95rem;
+  color: var(--mistrall-dark);
+  font-weight: 600;
+}
+
+.segmented-control--countries .seg-btn:hover {
+  border-color: var(--mistrall-dark);
+  background-color: var(--mistrall-cream);
+}
+
+.segmented-control--countries .seg-btn.active {
+  background-color: var(--mistrall-dark);
+  border-color: var(--mistrall-dark);
+  color: var(--mistrall-white);
+  box-shadow: 0 2px 5px rgba(37, 36, 35, 0.18);
+}
+
+/* Variante 2: Forma de cálculo (color original crema/blanco) */
+.segmented-control--formula {
+  flex-wrap: wrap;
+}
+
+/* Toggle Switch moderno */
+.toggle-pill-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+  background-color: var(--mistrall-cream);
+  border: 1px solid var(--mistrall-border);
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-full);
+  user-select: none;
+  transition: background-color 0.2s ease;
+}
+
+.toggle-pill-switch:hover {
+  background-color: #EFEBDD;
+}
+
+.toggle-pill-switch input {
+  display: none;
+}
+
+.toggle-track {
+  width: 32px;
+  height: 18px;
+  background-color: #C8CDD3;
+  border-radius: 20px;
+  position: relative;
+  transition: background-color 0.2s;
+}
+
+.toggle-track::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  background-color: #FFFFFF;
+  border-radius: 50%;
+  transition: transform 0.2s;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-pill-switch input:checked + .toggle-track {
+  background-color: var(--mistrall-slate);
+}
+
+.toggle-pill-switch input:checked + .toggle-track::after {
+  transform: translateX(14px);
+}
+
+.toggle-text {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--mistrall-dark);
+}
+
+.echart-box {
+  width: 100%;
+}
+
+.figure-footnote {
+  font-size: 0.8rem;
+  color: var(--mistrall-text-muted);
+  margin-top: 1.25rem;
+  padding-top: 0.85rem;
+  border-top: 1px dashed var(--mistrall-border-light);
+  line-height: 1.5;
+}
+
+.two-columns-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
+  gap: 1.75rem;
+}
+
+/* --------------------------------------------------------------------------
+   Comparador Dinámico
+   -------------------------------------------------------------------------- */
+.comparator-search-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.comparator-label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--mistrall-dark);
+}
+
+.clean-select {
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.5rem 1.25rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--mistrall-border);
+  background-color: var(--mistrall-white);
+  color: var(--mistrall-dark);
+  outline: none;
+  cursor: pointer;
+  min-width: 280px;
+}
+
+.clean-select:focus {
+  border-color: var(--mistrall-slate);
+  box-shadow: 0 0 0 3px rgba(60, 77, 93, 0.12);
+}
+
+.comparator-editorial-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.compare-metric-card {
+  background-color: var(--mistrall-cream);
+  border: 1px solid var(--mistrall-border);
+  border-radius: var(--radius-sm);
+  padding: 1.25rem;
+}
+
+.compare-metric-header {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--mistrall-text-muted);
+  margin-bottom: 0.75rem;
+}
+
+.compare-values-duo {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.6rem;
+}
+
+.c-country-val {
+  display: flex;
+  flex-direction: column;
+}
+
+.c-country-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--mistrall-text-muted);
+}
+
+.c-country-number {
+  font-size: 1.85rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.c-diff-pill {
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-full);
+  display: inline-block;
+}
+
+.c-diff-pill.fav-chile {
+  background-color: #E1F8EC;
+  color: #0E6245;
+}
+
+.c-diff-pill.unfav-chile {
+  background-color: #FDE8E8;
+  color: #9B1C1C;
+}
+
+/* --------------------------------------------------------------------------
+   Recomendaciones de Política (Capítulo 7)
+   -------------------------------------------------------------------------- */
+.recommendations-editorial-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.rec-editorial-item {
+  background-color: var(--mistrall-white);
+  border: 1px solid var(--mistrall-border);
+  border-radius: var(--radius-md);
+  padding: 2rem 2.25rem;
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.rec-editorial-item:hover {
+  transform: translateX(4px);
+  box-shadow: var(--shadow-hover);
+}
+
+.rec-order {
+  font-size: 1.75rem;
+  font-weight: 800;
+  background-color: var(--mistrall-yellow);
+  color: var(--mistrall-dark);
+  width: 52px;
+  height: 52px;
+  min-width: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  line-height: 1;
+}
+
+.rec-body h3 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--mistrall-dark);
+  line-height: 1.35;
+  margin-bottom: 0.6rem;
+}
+
+.rec-body p {
+  font-size: 0.98rem;
+  color: #383B3F;
+  line-height: 1.65;
+}
+
+/* --------------------------------------------------------------------------
+   Footer Oficial idéntico a mistrall.cl (Fondo azul #3C4D5D + Logo ANID)
+   -------------------------------------------------------------------------- */
+.site-footer {
+  background-color: #3C4D5D;
+  color: #F6F4EA;
+  padding: 100px 2rem 1.5rem;
+  margin-top: 6rem;
+}
+
+.footer-container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 20px 20px;
+}
+
+.footer-top-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 50px;
+}
+
+.footer-logo-col {
+  flex: 0 1 36%;
+  padding-right: 4rem;
+}
+
+.footer-anid-logo {
+  width: 100%;
+  max-width: 310px;
+  height: auto;
+  display: block;
+}
+
+.footer-spacer-col {
+  flex: 1 1 8%;
+}
+
+.footer-nav-col,
+.footer-contact-col {
+  flex: 0 1 24%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.footer-heading-title {
+  font-family: "Neue Haas Grotesk", "Manrope", sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: #F6F4EA;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.footer-link-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-link-list li a {
+  font-family: "Manrope", sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  color: #F6F4EA;
+  text-decoration: none;
+  transition: opacity 0.25s ease;
+}
+
+.footer-link-list li a:hover {
+  opacity: 0.8;
+}
+
+.footer-social-icons {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 4px;
+}
+
+.footer-social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  text-decoration: none;
+  transition: opacity 0.25s ease;
+}
+
+.footer-social-icon:hover {
+  opacity: 0.8;
+}
+
+.footer-social-icon svg {
+  width: 20px;
+  height: 20px;
+  fill: #FFFFFF;
+  display: block;
+}
+
+.footer-bottom-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-top: 0;
+}
+
+.copyright-notice,
+.footer-credit-link a {
+  font-family: "Manrope", sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  color: #FFFFFF;
+  text-decoration: none;
+  margin: 0;
+}
+
+.footer-credit-link a:hover {
+  opacity: 0.85;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Layout
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .editorial-headline {
+    font-size: 2.5rem;
+  }
+  .editorial-synthesis-flow {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .synthesis-main-column {
+    border-right: none;
+    padding-right: 0;
+    border-bottom: 1px solid var(--mistrall-border-light);
+    padding-bottom: 2rem;
+  }
+  .two-columns-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .editorial-headline {
+    font-size: 2rem;
+  }
+  .editorial-dek {
+    font-size: 1.15rem;
+  }
+  .editorial-synthesis-flow {
+    padding: 1.5rem;
+  }
+  .rec-editorial-item {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
