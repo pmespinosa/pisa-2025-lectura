@@ -100,7 +100,8 @@ function setupChapterTracker() {
 /* --------------------------------------------------------------------------
    Paleta Institucional Oficial de los Gráficos del Policy Brief de Mistrall
    -------------------------------------------------------------------------- */
-const isMobileDevice = () => window.innerWidth < 768;
+// Los gráficos se muestran con su diseño completo; en móvil se desplazan horizontalmente (ver .chart-scroll-wrapper).
+const isMobileDevice = () => false;
 
 const POLICY_PALETTE = {
   // Niveles de desempeño y cobertura (especificados explícitamente)
